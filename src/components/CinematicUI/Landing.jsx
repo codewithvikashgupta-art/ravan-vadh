@@ -19,14 +19,19 @@ export default function Landing() {
   if (started) return null;
 
   const start = () => {
-    setAssetsReady(true);
-    useStore.getState().setPhase('loading');
-    // Small delay so the loading veil can animate before playback begins.
-    setTimeout(() => {
+    // Initialise audio SYNCHRONOUSLY inside the click (user gesture) so the
+    // browser allows the AudioContext to start. Never let audio issues block
+    // the experience.
+    try {
       audio.init();
       audio.resume();
-      useStore.getState().setStarted(true);
-    }, 600);
+    } catch (err) {
+      console.warn('Audio init deferred:', err);
+    }
+    useStore.getState().setPhase('loading');
+    // Short veil, then flag the experience as started. The SceneController
+    // watches `started` and begins playback once the veil has finished.
+    setTimeout(() => useStore.getState().setStarted(true), 550);
   };
 
   const minutes = Math.floor(TOTAL_DURATION / 60);

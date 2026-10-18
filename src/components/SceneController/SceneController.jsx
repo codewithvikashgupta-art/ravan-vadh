@@ -30,8 +30,26 @@ import { scenes } from '../../scenes/sceneData';
  */
 export default function SceneController() {
   const gl = useThree((s) => s.gl);
+  const started = useStore((s) => s.started);
   const quality = useRef(new AdaptiveQuality());
   const lastScene = useRef(-1);
+
+  // Begin playback once the landing screen hands over and the loading veil
+  // has had time to finish. This is what flips the phase from 'loading' to
+  // 'playing' and dismisses the loading screen.
+  useEffect(() => {
+    if (!started) return;
+    const t = setTimeout(() => {
+      try {
+        audio.resume();
+      } catch {
+        /* audio is optional */
+      }
+      useStore.getState().setPhase('playing');
+      playback.play();
+    }, 750);
+    return () => clearTimeout(t);
+  }, [started]);
 
   // Build + bind the master timeline once.
   useEffect(() => {

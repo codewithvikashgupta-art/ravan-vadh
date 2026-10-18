@@ -34,3 +34,6 @@ public/models/*.gltf
 public/textures/*.hdr
 public/audio/*.mp3
 public/audio/*.wav
+
+# Headless test artifacts (puppeteer screenshots)
+scripts/*.png

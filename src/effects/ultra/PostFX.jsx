@@ -56,8 +56,8 @@ export default function PostFX() {
     // Standard view — light, cheap stack.
     return (
       <EffectComposer multisampling={quality !== 'low' ? 4 : 0} enableNormalPass={false}>
-        <Bloom intensity={0.45} luminanceThreshold={0.9} luminanceSmoothing={0.2} mipmapBlur />
-        <Noise premultiply blendFunction={BlendFunction.OVERLAY} opacity={0.35} />
+        <Bloom intensity={0.5} mipmapBlur={false} luminanceThreshold={0.6} luminanceSmoothing={0.2} />
+        <Noise premultiply blendFunction={BlendFunction.OVERLAY} opacity={0.32} />
         <Vignette eskil={false} offset={0.2} darkness={0.7} />
         <SMAA />
       </EffectComposer>
@@ -71,7 +71,7 @@ export default function PostFX() {
           intensity={bloomIntensity}
           luminanceThreshold={luminanceThreshold}
           luminanceSmoothing={0.3}
-          mipmapBlur
+          mipmapBlur={false}
           kernelSize={KernelSize.LARGE}
         />
       )}

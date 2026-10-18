@@ -126,4 +126,7 @@ export const playback = {
   },
 };
 
+// Debug hook: lets tests and the browser console jump directly to a scene.
+if (typeof window !== 'undefined') window.__playback = playback;
+
 export { TOTAL_DURATION };
